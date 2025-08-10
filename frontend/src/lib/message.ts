@@ -29,6 +29,13 @@ export const prepareContent = ({
   id: string;
   language?: string;
 }) => {
+  console.log('prepareContent called with:', {
+    elements,
+    content,
+    id,
+    language
+  });
+
   const elementNames = elements.map((e) => escapeRegExp(e.name));
 
   // Sort by descending length to avoid matching substrings
@@ -39,9 +46,17 @@ export const prepareContent = ({
     : undefined;
 
   let preparedContent = content ? content.trim() : '';
-  const inlinedElements = elements.filter(
-    (e) => isForIdMatch(id, e?.forId) && e.display === 'inline'
-  );
+  const inlinedElements = elements.filter((e) => {
+    const forIdMatch = isForIdMatch(id, e?.forId);
+    const isInline = e.display === 'inline';
+    console.log(
+      `Element filter - name: ${e.name}, type: ${e.type}, forId: ${e.forId}, messageId: ${id}, forIdMatch: ${forIdMatch}, isInline: ${isInline}`
+    );
+    return forIdMatch && isInline;
+  });
+
+  console.log('Inlined elements after filtering:', inlinedElements);
+
   const refElements: IMessageElement[] = [];
 
   if (elementRegexp) {

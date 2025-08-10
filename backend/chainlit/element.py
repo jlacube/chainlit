@@ -41,7 +41,9 @@ ElementType = Literal[
     "plotly",
     "dataframe",
     "custom",
+    "training_activity",
 ]
+
 ElementDisplay = Literal["inline", "side", "page"]
 ElementSize = Literal["small", "medium", "large"]
 
@@ -181,6 +183,10 @@ class Element:
 
         elif type == "custom":
             return CustomElement(props=e_dict.get("props", {}), **common_params)  # type: ignore[arg-type]
+
+        elif type == "training_activity":
+            return TrainingActivityElement.from_dict(e_dict)
+
         else:
             # Default to File for any other type
             return File(**common_params)  # type: ignore[arg-type]
@@ -253,6 +259,84 @@ class Element:
 
 
 ElementBased = TypeVar("ElementBased", bound=Element)
+
+
+# TrainingActivityElement: for online training activities with a question and a hidden answer
+@dataclass
+class TrainingActivityElement(Element):
+    """Element for online training activities with a question and a hidden answer."""
+
+    type: ClassVar[ElementType] = "training_activity"
+    mime: str = "application/json"
+    question: str = ""
+    hidden_answer: str = ""
+    user_answer: Optional[str] = None
+    revealed: bool = False
+    props: Dict = Field(default_factory=dict)
+
+    def __post_init__(self) -> None:
+        # Store all relevant data in props for frontend
+        self.props = {
+            "question": self.question,
+            "hidden_answer": self.hidden_answer,
+            "user_answer": self.user_answer,
+            "revealed": self.revealed,
+        }
+        self.content = json.dumps(self.props)
+        super().__post_init__()
+        self.updatable = True
+
+    def to_dict(self) -> ElementDict:
+        d = super().to_dict()
+        d["props"] = self.props
+        return d
+
+    @classmethod
+    def from_dict(cls, e_dict: "ElementDict"):
+        import uuid as uuid_module
+
+        props = e_dict.get("props", {}) or {}
+
+        # Extract constructor parameters with proper type checking
+        return cls(
+            # Training activity specific fields
+            question=str(props.get("question", "")),
+            hidden_answer=str(props.get("hidden_answer", "")),
+            user_answer=str(props.get("user_answer"))
+            if props.get("user_answer") is not None
+            else None,
+            revealed=bool(props.get("revealed", False)),
+            # Element base fields
+            id=str(e_dict["id"])
+            if "id" in e_dict and e_dict["id"] is not None
+            else str(uuid_module.uuid4()),
+            thread_id=str(e_dict["threadId"])
+            if "threadId" in e_dict and e_dict["threadId"] is not None
+            else "",
+            name=str(e_dict.get("name", "")),
+            chainlit_key=str(e_dict["chainlitKey"])
+            if "chainlitKey" in e_dict and e_dict["chainlitKey"] is not None
+            else None,
+            url=str(e_dict["url"])
+            if "url" in e_dict and e_dict["url"] is not None
+            else None,
+            object_key=str(e_dict["objectKey"])
+            if "objectKey" in e_dict and e_dict["objectKey"] is not None
+            else None,
+            path=str(e_dict["path"])
+            if "path" in e_dict and e_dict["path"] is not None
+            else None,
+            content=None,  # Will be set in __post_init__
+            display=e_dict.get("display", "inline"),
+            size=e_dict.get("size"),
+            for_id=str(e_dict["forId"])
+            if "forId" in e_dict and e_dict["forId"] is not None
+            else None,
+            language=str(e_dict["language"])
+            if "language" in e_dict and e_dict["language"] is not None
+            else None,
+            mime=str(e_dict.get("mime", "application/json")),
+        )
 
 
 @dataclass

@@ -8,6 +8,7 @@ import { LazyDataframe } from './LazyDataframe';
 import { PDFElement } from './PDF';
 import { PlotlyElement } from './Plotly';
 import { TextElement } from './Text';
+import TrainingActivityElement from './TrainingActivityElement';
 import { VideoElement } from './Video';
 
 interface ElementProps {
@@ -15,6 +16,8 @@ interface ElementProps {
 }
 
 const Element = ({ element }: ElementProps): JSX.Element | null => {
+  console.log('Element registry called with:', element?.type, element);
+
   switch (element?.type) {
     case 'file':
       return <FileElement element={element} />;
@@ -34,7 +37,15 @@ const Element = ({ element }: ElementProps): JSX.Element | null => {
       return <LazyDataframe element={element} />;
     case 'custom':
       return <CustomElement element={element} />;
+    // @ts-expect-error: Custom element type not in IMessageElement
+    case 'training_activity':
+      console.log('Rendering training_activity element');
+      return <TrainingActivityElement element={element as any} />;
     default:
+      console.log(
+        'No matching element type, returning null for:',
+        element?.type
+      );
       return null;
   }
 };

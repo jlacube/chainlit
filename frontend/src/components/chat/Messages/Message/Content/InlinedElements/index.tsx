@@ -10,6 +10,7 @@ import { InlinedImageList } from './InlinedImageList';
 import { InlinedPDFList } from './InlinedPDFList';
 import { InlinedPlotlyList } from './InlinedPlotlyList';
 import { InlinedTextList } from './InlinedTextList';
+import { InlinedTrainingActivityList } from './InlinedTrainingActivityList';
 import { InlinedVideoList } from './InlinedVideoList';
 
 interface Props {
@@ -48,6 +49,9 @@ const InlinedElements = ({ elements, className }: Props) => {
     <div className={cn('flex flex-col gap-4', className)}>
       {elementsByType.custom?.length ? (
         <InlinedCustomElementList items={elementsByType.custom} />
+      ) : null}
+      {elementsByType.training_activity?.length ? (
+        <InlinedTrainingActivityList items={elementsByType.training_activity} />
       ) : null}
       {elementsByType.image?.length ? (
         <InlinedImageList items={elementsByType.image} />
