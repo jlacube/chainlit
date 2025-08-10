@@ -30,6 +30,7 @@ from chainlit.element import (
     Dataframe,
     File,
     Image,
+    MCQElement,
     Pdf,
     Plotly,
     Pyplot,
@@ -37,6 +38,7 @@ from chainlit.element import (
     TaskList,
     TaskStatus,
     Text,
+    TrainingActivityElement,
     Video,
 )
 from chainlit.message import (
@@ -147,6 +149,7 @@ __all__ = [
     "InputAudioChunk",
     "LangchainCallbackHandler",
     "LlamaIndexCallbackHandler",
+    "MCQElement",
     "Message",
     "OutputAudioChunk",
     "Pdf",
@@ -160,6 +163,7 @@ __all__ = [
     "TaskList",
     "TaskStatus",
     "Text",
+    "TrainingActivityElement",
     "User",
     "Video",
     "__version__",

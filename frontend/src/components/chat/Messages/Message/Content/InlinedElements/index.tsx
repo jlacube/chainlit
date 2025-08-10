@@ -7,6 +7,7 @@ import { InlinedAudioList } from './InlinedAudioList';
 import { InlinedDataframeList } from './InlinedDataframeList';
 import { InlinedFileList } from './InlinedFileList';
 import { InlinedImageList } from './InlinedImageList';
+import { InlinedMCQList } from './InlinedMCQList';
 import { InlinedPDFList } from './InlinedPDFList';
 import { InlinedPlotlyList } from './InlinedPlotlyList';
 import { InlinedTextList } from './InlinedTextList';
@@ -52,6 +53,9 @@ const InlinedElements = ({ elements, className }: Props) => {
       ) : null}
       {elementsByType.training_activity?.length ? (
         <InlinedTrainingActivityList items={elementsByType.training_activity} />
+      ) : null}
+      {elementsByType.mcq?.length ? (
+        <InlinedMCQList elements={elementsByType.mcq} />
       ) : null}
       {elementsByType.image?.length ? (
         <InlinedImageList items={elementsByType.image} />

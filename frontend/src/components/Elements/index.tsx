@@ -5,6 +5,7 @@ import CustomElement from './CustomElement';
 import { FileElement } from './File';
 import { ImageElement } from './Image';
 import { LazyDataframe } from './LazyDataframe';
+import MCQElement from './MCQElement';
 import { PDFElement } from './PDF';
 import { PlotlyElement } from './Plotly';
 import { TextElement } from './Text';
@@ -18,7 +19,11 @@ interface ElementProps {
 const Element = ({ element }: ElementProps): JSX.Element | null => {
   console.log('Element registry called with:', element?.type, element);
 
-  switch (element?.type) {
+  if (!element) {
+    return null;
+  }
+
+  switch (element.type) {
     case 'file':
       return <FileElement element={element} />;
     case 'image':
@@ -37,15 +42,14 @@ const Element = ({ element }: ElementProps): JSX.Element | null => {
       return <LazyDataframe element={element} />;
     case 'custom':
       return <CustomElement element={element} />;
-    // @ts-expect-error: Custom element type not in IMessageElement
     case 'training_activity':
       console.log('Rendering training_activity element');
-      return <TrainingActivityElement element={element as any} />;
+      return <TrainingActivityElement element={element} />;
+    case 'mcq':
+      console.log('Rendering mcq element');
+      return <MCQElement element={element} />;
     default:
-      console.log(
-        'No matching element type, returning null for:',
-        element?.type
-      );
+      console.log('No matching element type, returning null');
       return null;
   }
 };

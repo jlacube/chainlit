@@ -9,7 +9,8 @@ export type IElement =
   | IPlotlyElement
   | IDataframeElement
   | ICustomElement
-  | ITrainingActivityElement;
+  | ITrainingActivityElement
+  | IMCQElement;
 
 export type IMessageElement =
   | IImageElement
@@ -21,7 +22,8 @@ export type IMessageElement =
   | IPlotlyElement
   | IDataframeElement
   | ICustomElement
-  | ITrainingActivityElement;
+  | ITrainingActivityElement
+  | IMCQElement;
 
 export type ElementType = IElement['type'];
 export type IElementSize = 'small' | 'medium' | 'large';
@@ -89,5 +91,20 @@ export interface ITrainingActivityElement
     hidden_answer: string;
     user_answer?: string | null;
     revealed: boolean;
+  };
+}
+
+export interface IMCQElement extends TMessageElement<'mcq'> {
+  props: {
+    question: string;
+    options: Array<{
+      id: string;
+      text: string;
+      isCorrect: boolean;
+      explanation?: string;
+    }>;
+    selected_option?: string | null;
+    revealed: boolean;
+    allow_multiple?: boolean;
   };
 }
