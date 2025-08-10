@@ -353,6 +353,7 @@ class MCQElement(Element):
     question: str = ""
     options: List[Dict[str, Any]] = Field(default_factory=list)
     selected_option: Optional[str] = None
+    selected_options: List[str] = Field(default_factory=list)
     revealed: bool = False
     allow_multiple: bool = False
     props: Dict = Field(default_factory=dict)
@@ -363,6 +364,7 @@ class MCQElement(Element):
             "question": self.question,
             "options": self.options,
             "selected_option": self.selected_option,
+            "selected_options": self.selected_options,
             "revealed": self.revealed,
             "allow_multiple": self.allow_multiple,
         }
@@ -389,6 +391,7 @@ class MCQElement(Element):
             selected_option=str(props.get("selected_option"))
             if props.get("selected_option") is not None
             else None,
+            selected_options=list(props.get("selected_options", [])),
             revealed=bool(props.get("revealed", False)),
             allow_multiple=bool(props.get("allow_multiple", False)),
             # Element base fields

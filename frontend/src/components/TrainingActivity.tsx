@@ -1,6 +1,7 @@
 import { CheckCircle, Eye, EyeOff, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
+import { Markdown } from '@/components/Markdown';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -57,7 +58,11 @@ const TrainingActivity = ({
         {/* Question */}
         <div className="bg-muted/50 p-4 rounded-lg border border-border">
           <h3 className="font-medium text-foreground mb-2">Question:</h3>
-          <p className="text-muted-foreground">{question}</p>
+          <div className="text-muted-foreground">
+            <Markdown allowHtml={false} latex={true}>
+              {question}
+            </Markdown>
+          </div>
         </div>
 
         {/* Answer Input */}
@@ -152,9 +157,11 @@ const TrainingActivity = ({
               <h4 className="font-medium text-yellow-800 dark:text-yellow-300 mb-2">
                 Correct Answer:
               </h4>
-              <p className="text-yellow-700 dark:text-yellow-200 font-medium">
-                {hidden_answer}
-              </p>
+              <div className="text-yellow-700 dark:text-yellow-200 font-medium">
+                <Markdown allowHtml={false} latex={true}>
+                  {hidden_answer}
+                </Markdown>
+              </div>
             </div>
           )}
         </div>

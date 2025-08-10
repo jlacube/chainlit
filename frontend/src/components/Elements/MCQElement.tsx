@@ -51,6 +51,7 @@ const MCQElement: React.FC<MCQElementProps> = ({ element }) => {
       question={props.question}
       options={props.options}
       selected_option={props.selected_option}
+      selected_options={props.selected_options}
       revealed={props.revealed}
       allow_multiple={props.allow_multiple}
       name={element.name}

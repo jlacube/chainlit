@@ -169,7 +169,132 @@ async def on_message(message: cl.Message):
             content="Here's an easy question:", elements=[mcq_element]
         ).send()
 
+    elif (
+        "algorithm" in message.content.lower()
+        or "complexity" in message.content.lower()
+    ):
+        # Algorithm complexity MCQ with LaTeX and 5 options
+        mcq_element = cl.MCQElement(
+            question="""**What is the time complexity of binary search?**
+
+Consider this implementation:
+
+```python
+def binary_search(arr, target):
+    left, right = 0, len(arr) - 1
+    
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    
+    return -1
+```
+
+*Assume the input array is **sorted** and has $n$ elements.*""",
+            options=[
+                {
+                    "id": "algo_a",
+                    "text": "$O(1)$ - *Constant time*",
+                    "isCorrect": False,
+                    "explanation": "**Incorrect.** $O(1)$ would mean the algorithm takes the same time regardless of input size. Binary search needs to examine multiple elements in the worst case.",
+                },
+                {
+                    "id": "algo_b",
+                    "text": "$O(\\log n)$ - *Logarithmic time*",
+                    "isCorrect": True,
+                    "explanation": "**Correct!** Binary search eliminates **half** of the remaining elements in each iteration. This gives us $\\log_2 n$ iterations in the worst case, hence $O(\\log n)$ time complexity.",
+                },
+                {
+                    "id": "algo_c",
+                    "text": "$O(n)$ - *Linear time*",
+                    "isCorrect": False,
+                    "explanation": "**Incorrect.** $O(n)$ would be the complexity of *linear search*. Binary search is much more efficient than examining every element.",
+                },
+                {
+                    "id": "algo_d",
+                    "text": "$O(n \\log n)$ - *Linearithmic time*",
+                    "isCorrect": False,
+                    "explanation": "**Incorrect.** $O(n \\log n)$ is typically the complexity of efficient sorting algorithms like **merge sort** or **heap sort**, not binary search.",
+                },
+                {
+                    "id": "algo_e",
+                    "text": "$O(n^2)$ - *Quadratic time*",
+                    "isCorrect": False,
+                    "explanation": "**Incorrect.** $O(n^2)$ is much worse than binary search's actual complexity. This is typical for algorithms with nested loops, like ~~bubble sort~~.",
+                },
+            ],
+            revealed=False,
+        )
+
+        await cl.Message(
+            content="Here's an algorithm complexity question:", elements=[mcq_element]
+        ).send()
+
+    elif (
+        "variation" in message.content.lower()
+        or "alternative" in message.content.lower()
+    ):
+        # MCQ with multiple valid solutions/approaches
+        mcq_element = cl.MCQElement(
+            question="""**Which approach would be most appropriate for sorting a small array of 10 integers?**
+
+Consider these factors:
+- **Performance**: Actual runtime for small datasets
+- **Implementation**: Code simplicity and readability
+- **Practical use**: Real-world considerations
+
+```python
+# Array to sort
+arr = [64, 34, 25, 12, 22, 11, 90, 5, 77, 30]
+```
+
+*Note: For small arrays, theoretical complexity may not match practical performance.*""",
+            options=[
+                {
+                    "id": "var_a",
+                    "text": "**Bubble Sort** - $O(n^2)$ but simple",
+                    "isCorrect": True,
+                    "explanation": "**Valid choice!** For just 10 elements, bubble sort's simplicity often outweighs its poor theoretical complexity. Easy to implement and understand.",
+                },
+                {
+                    "id": "var_b",
+                    "text": "**Insertion Sort** - $O(n^2)$ but efficient for small arrays",
+                    "isCorrect": True,
+                    "explanation": "**Excellent choice!** Insertion sort is actually *faster* than quicksort for small arrays (typically < 20 elements) and is often used as the base case in hybrid algorithms.",
+                },
+                {
+                    "id": "var_c",
+                    "text": "**Built-in `sorted()`** - Timsort implementation",
+                    "isCorrect": True,
+                    "explanation": "**Practical choice!** Python's `sorted()` uses Timsort, which is optimized for real-world data and handles small arrays efficiently. Most **production-ready** approach.",
+                },
+                {
+                    "id": "var_d",
+                    "text": "**Merge Sort** - $O(n \\log n)$ guaranteed",
+                    "isCorrect": False,
+                    "explanation": "**Overkill** for 10 elements. The overhead of recursive calls and auxiliary space makes it *slower* than simpler algorithms for this size.",
+                },
+                {
+                    "id": "var_e",
+                    "text": "**Radix Sort** - $O(d \\times n)$ for integers",
+                    "isCorrect": False,
+                    "explanation": "**Unnecessarily complex** for this scenario. The setup overhead makes it impractical for such a small dataset, despite good theoretical complexity.",
+                },
+            ],
+            revealed=False,
+        )
+
+        await cl.Message(
+            content="Here's a question with multiple valid approaches:",
+            elements=[mcq_element],
+        ).send()
+
     else:
         await cl.Message(
-            content=f"You said: {message.content}\n\nTry asking for:\n- 'javascript' - for a JavaScript question\n- 'multiple' - for a multiple-answer question\n- 'easy' - for an easy question"
+            content=f"You said: {message.content}\n\nTry asking for:\n- 'javascript' - for a JavaScript question\n- 'multiple' - for a multiple-answer question\n- 'easy' - for an easy question\n- 'algorithm' - for an algorithm complexity question\n- 'variation' - for a question with multiple valid solutions"
         ).send()

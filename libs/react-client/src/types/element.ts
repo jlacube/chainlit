@@ -104,6 +104,7 @@ export interface IMCQElement extends TMessageElement<'mcq'> {
       explanation?: string;
     }>;
     selected_option?: string | null;
+    selected_options?: string[];
     revealed: boolean;
     allow_multiple?: boolean;
   };
