@@ -17,6 +17,7 @@ import {
   chatSettingsInputsState,
   chatSettingsValueState,
   commandsState,
+  composerButtonState,
   currentThreadIdState,
   elementState,
   firstUserInteraction,
@@ -78,6 +79,7 @@ const useChatSession = () => {
   const setTasklists = useSetRecoilState(tasklistState);
   const setActions = useSetRecoilState(actionState);
   const setChatSettingsInputs = useSetRecoilState(chatSettingsInputsState);
+  const setComposerButtons = useSetRecoilState(composerButtonState);
   const setTokenCount = useSetRecoilState(tokenCountState);
   const [chatProfile, setChatProfile] = useRecoilState(chatProfileState);
   const idToResume = useRecoilValue(threadIdToResumeState);
@@ -425,6 +427,10 @@ const useChatSession = () => {
 
       socket.on('token_usage', (count: number) => {
         setTokenCount((old) => old + count);
+      });
+
+      socket.on('set_composer_buttons', (data: { buttons: any[] }) => {
+        setComposerButtons(data.buttons || []);
       });
 
       socket.on('window_message', (data: any) => {

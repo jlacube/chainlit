@@ -23,6 +23,13 @@ from chainlit.action import Action
 from chainlit.cache import cache
 from chainlit.chat_context import chat_context
 from chainlit.chat_settings import ChatSettings
+from chainlit.composer_button import (
+    ComposerButton,
+    composer_button_callback,
+    remove_composer_buttons,
+    set_composer_buttons,
+    update_composer_button,
+)
 from chainlit.context import context
 from chainlit.element import (
     Audio,
@@ -138,6 +145,7 @@ __all__ = [
     "ChatProfile",
     "ChatSettings",
     "CompletionGeneration",
+    "ComposerButton",
     "CopilotFunction",
     "CustomElement",
     "Dataframe",
@@ -171,6 +179,7 @@ __all__ = [
     "author_rename",
     "cache",
     "chat_context",
+    "composer_button_callback",
     "context",
     "data_layer",
     "header_auth_callback",
@@ -196,12 +205,15 @@ __all__ = [
     "on_stop",
     "on_window_message",
     "password_auth_callback",
+    "remove_composer_buttons",
     "run_sync",
     "send_window_message",
     "set_chat_profiles",
+    "set_composer_buttons",
     "set_starters",
     "sleep",
     "step",
+    "update_composer_button",
     "user_session",
 ]
 

@@ -24,6 +24,7 @@ import {
 import { Attachments } from './Attachments';
 import CommandButtons from './CommandButtons';
 import CommandButton from './CommandPopoverButton';
+import CustomComposerButtons from './CustomComposerButtons';
 import Input, { InputMethods } from './Input';
 import McpButton from './Mcp';
 import SubmitButton from './SubmitButton';
@@ -181,6 +182,7 @@ export default function MessageComposer({
             disabled={disabled}
             onCommandSelect={setSelectedCommand}
           />
+          <CustomComposerButtons />
           {chatSettingsInputs.length > 0 && (
             <Button
               id="chat-settings-open-modal"

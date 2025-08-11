@@ -11,6 +11,7 @@ import {
   IAuthConfig,
   ICallFn,
   IChainlitConfig,
+  IComposerButton,
   IMcp,
   IMessageElement,
   IStep,
@@ -147,6 +148,11 @@ export const elementState = atom<IMessageElement[]>({
 
 export const tasklistState = atom<ITasklistElement[]>({
   key: 'TasklistElements',
+  default: []
+});
+
+export const composerButtonState = atom<IComposerButton[]>({
+  key: 'ComposerButtons',
   default: []
 });
 

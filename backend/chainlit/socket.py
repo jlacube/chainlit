@@ -379,3 +379,16 @@ async def change_settings(sid, settings: Dict[str, Any]):
 
     if config.code.on_settings_update:
         await config.code.on_settings_update(settings)
+
+
+@sio.on("composer_button_click")
+async def handle_composer_button_click(sid, data: Dict[str, Any]):
+    """Handle composer button click from the frontend."""
+    from chainlit.composer_button import handle_composer_button_click
+
+    init_ws_context(sid)
+    button_id = data.get("button_id")
+    button_data = data.get("data", {})
+
+    if button_id:
+        await handle_composer_button_click(button_id, button_data)
